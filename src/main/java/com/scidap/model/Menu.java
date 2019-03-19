@@ -19,7 +19,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 public class Menu {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
 	@Column(name="item_id")
 	private Long itemId;
 	

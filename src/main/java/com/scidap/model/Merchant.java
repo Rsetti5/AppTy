@@ -19,7 +19,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 public class Merchant {
 	@Id
 	@Column(name="merchant_id")
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE)
     private long id;
 	
 	@Column(name="merchant_name")
@@ -38,7 +38,7 @@ public class Merchant {
 	private String address;
 	
 	@Column(name="merchant_menu_id")
-	private String menu_id;
+	private long menu_id;
 	
 	@Column(name="creation_date")
 	@CreatedDate
@@ -98,11 +98,11 @@ public class Merchant {
 		this.address = address;
 	}
 
-	public String getMenu_id() {
+	public long getMenu_id() {
 		return menu_id;
 	}
 
-	public void setMenu_id(String menu_id) {
+	public void setMenu_id(long menu_id) {
 		this.menu_id = menu_id;
 	}
 
