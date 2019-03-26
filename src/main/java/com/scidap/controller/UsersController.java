@@ -35,10 +35,10 @@ public class UsersController {
 	}
 	
 	@PostMapping("/validate")
-	public boolean validateUser(@Valid @RequestBody Users user) {
+	public Users validateUser(@Valid @RequestBody Users user) {
 		user.setPassword(AppTyEncryption.encrypt(user.getPassword()));
 		List<Users> list=usersRep.validateUser(user.getUsername(), user.getPassword());
-		if(list.size()>0) return true;
-		return false;
+		if(list.size()>0) return list.get(0);
+		return null;
 	}
 }
