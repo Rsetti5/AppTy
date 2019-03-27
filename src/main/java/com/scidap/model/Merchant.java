@@ -31,6 +31,9 @@ public class Merchant {
 	@Column(name="merchant_email")
 	private String email;
 	
+	@Column(name="merchant_logo")
+	private String logo;
+	
 	@Column(name="merchant_contact_number")
 	private String contact_number;
 	
@@ -40,6 +43,14 @@ public class Merchant {
 	@Column(name="merchant_menu_id")
 	private long menu_id;
 	
+	public String getLogo() {
+		return logo;
+	}
+
+	public void setLogo(String logo) {
+		this.logo = logo;
+	}
+
 	@Column(name="creation_date")
 	@CreatedDate
 	@Temporal(TemporalType.TIMESTAMP)
