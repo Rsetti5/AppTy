@@ -3,6 +3,7 @@ package com.scidap.utils;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
+
 public class AppTyEncryption {
 	
 	public static String encrypt(String source) {
@@ -16,4 +17,5 @@ public class AppTyEncryption {
 		}
 		return md5;
 	}
+	
 }

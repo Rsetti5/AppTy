@@ -15,11 +15,22 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 @Entity
-@Table(name="item_details")
-public class Menu {
+@Table(name="merchant_item_details")
+public class MerchantItemDetails {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
+	@Column(name="mapping_id")
+	private Long mappingId;
+	
+	public Long getMappingId() {
+		return mappingId;
+	}
+
+	public void setMappingId(Long mappingId) {
+		this.mappingId= mappingId;
+	}
+
 	@Column(name="item_id")
 	private Long itemId;
 	
@@ -32,13 +43,13 @@ public class Menu {
 	@Column(name="item_name")
 	private String name;
 	
-	@Column(name="item_cost")
+	@Column(name="cost_price")
 	private double cost;
 	
-	@Column(name="item_discount")
+	@Column(name="discount")
 	private double discount;
 	
-	@Column(name="item_selling_price")
+	@Column(name="selling_price")
 	private double sellingPrice;
 	
 	@Column(name="item_cuisine_type")

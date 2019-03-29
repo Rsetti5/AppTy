@@ -25,7 +25,9 @@ public class UsersController {
 	
 	@GetMapping("/get/{user_id}")
 	public Users getUserById(@PathVariable(value="user_id") Long user_id) throws Exception {
-		return usersRep.findById(user_id).orElseThrow(()-> new Exception());
+		Users user= usersRep.findById(user_id).orElseThrow(()-> new Exception());
+		user.setPassword("");
+		return user;
 	}
 	
 	@PostMapping("/create")
@@ -38,7 +40,17 @@ public class UsersController {
 	public Users validateUser(@Valid @RequestBody Users user) {
 		user.setPassword(AppTyEncryption.encrypt(user.getPassword()));
 		List<Users> list=usersRep.validateUser(user.getUsername(), user.getPassword());
-		if(list.size()>0) return list.get(0);
-		return null;
+		if(list.size()>0) user= list.get(0);
+		user.setPassword("");
+		return user;
+	}
+	
+	@PostMapping("/update")
+	public Users updateUser(@Valid @RequestBody Users user) {
+		String password = user.getPassword();
+		if(!("".equalsIgnoreCase(password))) {
+			user.setPassword(AppTyEncryption.encrypt(password));
+		}
+		return usersRep.save(user);
 	}
 }
