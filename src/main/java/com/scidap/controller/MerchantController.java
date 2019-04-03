@@ -27,7 +27,7 @@ import com.scidap.repository.MerchantRepository;
 import com.scidap.utils.ParsingUtil;
 
 @RestController
-@RequestMapping("/api/merchants")
+@RequestMapping("/api/merchants/restaurants")
 public class MerchantController {
 	
 	@Autowired
@@ -42,9 +42,9 @@ public class MerchantController {
 	@Autowired
 	private Environment env;
 	
-	@GetMapping("/get/{merchant_id}")
-	public Merchant getMerchantFromId(@PathVariable(value="merchant_id") Long merchant_id) throws Exception {
-		return merchantRep.findById(merchant_id).orElseThrow(()-> new Exception());
+	@GetMapping("/get/{merchant_restaurant_id}")
+	public Merchant getMerchantFromId(@PathVariable(value="merchant_restaurant_id") Long merchant_restaurant_id) throws Exception {
+		return merchantRep.findById(merchant_restaurant_id).orElseThrow(()-> new Exception());
 	}
 	
 	@GetMapping("/get")
@@ -110,14 +110,14 @@ public class MerchantController {
 		return merchantRep.save(old_merchant);
 	}
 	
-	@GetMapping("/{merchant_id}/menu")
-	public List<MerchantItemDetails> getMenuFromMerchantId(@PathVariable(value="merchant_id") Long merchantId){
-		return merchantDetailRep.findByMerchantIdOrderByCategoryAsc(merchantId);
+	@GetMapping("/{merchant_restaurant_id}/menu")
+	public List<MerchantItemDetails> getMenuFromMerchantId(@PathVariable(value="merchant_restaurant_id") Long merchant_restaurant_id){
+		return merchantDetailRep.findByMerchantIdOrderByCategoryAsc(merchant_restaurant_id);
 	}
 	
-	@PostMapping("/{merchant_id}/menu/create")
-	public Menu createMenuForMerchant(@PathVariable(value="merchant_id") Long merchantId, @Valid @RequestBody Menu menu){
-		menu.setMerchantId(merchantId);
+	@PostMapping("/{merchant_restaurant_id}/menu/create")
+	public Menu createMenuForMerchant(@PathVariable(value="merchant_restaurant_id") Long merchant_restaurant_id, @Valid @RequestBody Menu menu){
+		menu.setMerchantId(merchant_restaurant_id);
 		String image = menu.getImageUrl();
 		if(!("".equalsIgnoreCase(image))) {
 			byte[] data = Base64.getDecoder().decode(menu.getImageUrl());
@@ -143,8 +143,8 @@ public class MerchantController {
 		return menuRep.save(menu);
 	}
 	
-	@PostMapping("/{merchant_id}/menu/update")
-	public Menu updateMenuForMerchant(@PathVariable(value="merchant_id") Long merchantId, @Valid @RequestBody Menu menu){
+	@PostMapping("/{merchant_restaurant_id}/menu/update")
+	public Menu updateMenuForMerchant(@PathVariable(value="merchant_restaurant_id") Long merchant_restaurant_id, @Valid @RequestBody Menu menu){
 		Menu old_menu =null;
 		try {
 			old_menu = menuRep.getOne(menu.getItemId());
@@ -152,7 +152,7 @@ public class MerchantController {
 			e.printStackTrace();
 			return null;
 		}
-		menu.setMerchantId(merchantId);
+		menu.setMerchantId(merchant_restaurant_id);
 		String image = menu.getImageUrl();
 		if(!("".equalsIgnoreCase(image))) {
 			byte[] data = Base64.getDecoder().decode(image);

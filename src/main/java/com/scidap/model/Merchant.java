@@ -18,10 +18,13 @@ import org.springframework.data.annotation.LastModifiedDate;
 @Table(name="merchant_details")
 public class Merchant {
 	@Id
-	@Column(name="merchant_id")
+	@Column(name="merchant_restaurant_id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
     private long id;
 	
+	@Column(name="merchant_id")
+    private long merchant_id;
+
 	@Column(name="merchant_name")
 	private String name;
 	
@@ -132,5 +135,15 @@ public class Merchant {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	
+	public long getMerchant_id() {
+		return merchant_id;
+	}
+
+	public void setMerchant_id(long merchant_id) {
+		this.merchant_id = merchant_id;
+	}
+
 
 }

@@ -17,26 +17,27 @@ import com.scidap.repository.UsersRepository;
 import com.scidap.utils.AppTyEncryption;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 public class UsersController {
 
 	@Autowired
 	private UsersRepository usersRep;
 	
-	@GetMapping("/get/{user_id}")
+	@GetMapping({"/users/get/{user_id}","/merchants/get/{user_id}"})
 	public Users getUserById(@PathVariable(value="user_id") Long user_id) throws Exception {
 		Users user= usersRep.findById(user_id).orElseThrow(()-> new Exception());
 		user.setPassword("");
 		return user;
 	}
 	
-	@PostMapping("/create")
+	@PostMapping("/users/create")
 	public Users createUser(@Valid @RequestBody Users user) {
 		user.setPassword(AppTyEncryption.encrypt(user.getPassword()));
+		user.setRole("user");
 		return usersRep.save(user);
 	}
 	
-	@PostMapping("/validate")
+	@PostMapping({"/users/validate","/merchants/validate"})
 	public Users validateUser(@Valid @RequestBody Users user) {
 		user.setPassword(AppTyEncryption.encrypt(user.getPassword()));
 		List<Users> list=usersRep.validateUser(user.getUsername(), user.getPassword());
@@ -45,7 +46,7 @@ public class UsersController {
 		return user;
 	}
 	
-	@PostMapping("/update")
+	@PostMapping({"/users/update","/merchants/update"})
 	public Users updateUser(@Valid @RequestBody Users user) {
 		String password = user.getPassword();
 		if(!("".equalsIgnoreCase(password))) {
@@ -53,4 +54,13 @@ public class UsersController {
 		}
 		return usersRep.save(user);
 	}
+	
+	
+	@PostMapping("/merchants/create")
+	public Users createMerchant(@Valid @RequestBody Users user) {
+		user.setPassword(AppTyEncryption.encrypt(user.getPassword()));
+		user.setRole("merchant");
+		return usersRep.save(user);
+	}
+	
 }
