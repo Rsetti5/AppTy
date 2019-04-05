@@ -49,7 +49,7 @@ public class MerchantController {
 	
 	@GetMapping("/get/{merchant_restaurant_id}")
 	public Merchant getMerchantFromId(@PathVariable(value="merchant_restaurant_id") Long merchant_restaurant_id) throws Exception {
-		return merchantRep.findById(merchant_restaurant_id).orElseThrow(()-> new Exception());
+		return merchantRep.findByMerchantRestaurantId(merchant_restaurant_id);
 	}
 	
 	@GetMapping("/get")
@@ -76,10 +76,10 @@ public class MerchantController {
 			}
 			merchant.setLogo(path+merchant.getName()+".jpg");
 			merchant = merchantRep.save(merchant);
-			File newFile = new File(path+merchant.getId()+".jpg");
+			File newFile = new File(path+merchant.getMerchantRestaurantId()+".jpg");
 			file.renameTo(newFile);
 			String urlPath= env.getProperty("imageUrl");
-			merchant.setLogo(urlPath+"/api/images/merchants/"+merchant.getId());
+			merchant.setLogo(urlPath+"/api/images/merchants/"+merchant.getMerchantRestaurantId());
 		}	
 		return merchantRep.save(merchant);
 	}
@@ -88,7 +88,7 @@ public class MerchantController {
 	public Merchant updateMerchant(@Valid @RequestBody Merchant merchant) {
 		Merchant old_merchant =null;
 		try {
-			old_merchant = merchantRep.getOne(merchant.getId());
+			old_merchant = merchantRep.getOne(merchant.getMerchantRestaurantId());
 		}catch(Exception e) {
 			e.printStackTrace();
 			return null;
@@ -109,7 +109,7 @@ public class MerchantController {
 				e.printStackTrace();
 			}
 			String urlPath= env.getProperty("imageUrl");
-			merchant.setLogo(urlPath+"/api/images/merchants/"+merchant.getId());
+			merchant.setLogo(urlPath+"/api/images/merchants/"+merchant.getMerchantRestaurantId());
 		}		
 		old_merchant= ParsingUtil.parseMerchantDetails(merchant, old_merchant);
 		return merchantRep.save(old_merchant);

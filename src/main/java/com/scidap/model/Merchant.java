@@ -20,8 +20,16 @@ public class Merchant {
 	@Id
 	@Column(name="merchant_restaurant_id")
 	@GeneratedValue(strategy=GenerationType.SEQUENCE)
-    private long id;
+    private long merchantRestaurantId;
 	
+	public long getMerchantRestaurantId() {
+		return merchantRestaurantId;
+	}
+
+	public void setMerchantRestaurantId(long merchantRestaurantId) {
+		this.merchantRestaurantId = merchantRestaurantId;
+	}
+
 	@Column(name="merchant_id")
     private long merchant_id;
 
@@ -118,14 +126,6 @@ public class Merchant {
 
 	public void setMenu_id(long menu_id) {
 		this.menu_id = menu_id;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
 	}
 
 	public String getName() {
