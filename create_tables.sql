@@ -5,7 +5,7 @@
 -- Dumped from database version 11.2
 -- Dumped by pg_dump version 11.2
 
--- Started on 2019-04-03 17:22:04
+-- Started on 2019-04-05 14:41:22
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -53,7 +53,7 @@ SET default_with_oids = false;
 
 CREATE TABLE scidap.item_details (
     item_id integer NOT NULL,
-    merchant_id integer,
+    merchant_restaurant_id integer,
     item_category character varying(100),
     item_name text,
     item_cost double precision,
@@ -73,7 +73,7 @@ CREATE TABLE scidap.item_details (
 ALTER TABLE scidap.item_details OWNER TO postgres;
 
 --
--- TOC entry 2848 (class 0 OID 0)
+-- TOC entry 2850 (class 0 OID 0)
 -- Dependencies: 197
 -- Name: COLUMN item_details.item_meal_type; Type: COMMENT; Schema: scidap; Owner: postgres
 --
@@ -112,28 +112,28 @@ ALTER TABLE scidap.merchant_details OWNER TO postgres;
 
 CREATE TABLE scidap.merchant_item_mapping (
     mapping_id integer NOT NULL,
-    merchant_id integer NOT NULL,
+    merchant_restaurant_id integer NOT NULL,
     item_id integer NOT NULL,
-    cost_price double precision,
-    selling_price double precision,
-    discount double precision
+    item_cost double precision,
+    item_selling_price double precision,
+    item_discount double precision
 );
 
 
 ALTER TABLE scidap.merchant_item_mapping OWNER TO postgres;
 
 --
--- TOC entry 200 (class 1259 OID 16617)
+-- TOC entry 203 (class 1259 OID 16638)
 -- Name: merchant_item_details; Type: VIEW; Schema: scidap; Owner: postgres
 --
 
 CREATE VIEW scidap.merchant_item_details AS
  SELECT m.mapping_id,
-    m.merchant_id,
+    m.merchant_restaurant_id,
     m.item_id,
-    m.cost_price,
-    m.selling_price,
-    m.discount,
+    m.item_cost,
+    m.item_selling_price,
+    m.item_discount,
     i.item_category,
     i.item_name,
     i.item_cuisine_type,
@@ -151,7 +151,7 @@ CREATE VIEW scidap.merchant_item_details AS
 ALTER TABLE scidap.merchant_item_details OWNER TO postgres;
 
 --
--- TOC entry 201 (class 1259 OID 16622)
+-- TOC entry 200 (class 1259 OID 16622)
 -- Name: order_details; Type: TABLE; Schema: scidap; Owner: postgres
 --
 
@@ -170,7 +170,7 @@ CREATE TABLE scidap.order_details (
 ALTER TABLE scidap.order_details OWNER TO postgres;
 
 --
--- TOC entry 202 (class 1259 OID 16625)
+-- TOC entry 201 (class 1259 OID 16625)
 -- Name: qr_merchant_mapping; Type: TABLE; Schema: scidap; Owner: postgres
 --
 
@@ -187,7 +187,7 @@ CREATE TABLE scidap.qr_merchant_mapping (
 ALTER TABLE scidap.qr_merchant_mapping OWNER TO postgres;
 
 --
--- TOC entry 203 (class 1259 OID 16628)
+-- TOC entry 202 (class 1259 OID 16628)
 -- Name: user_details; Type: TABLE; Schema: scidap; Owner: postgres
 --
 
@@ -202,17 +202,18 @@ CREATE TABLE scidap.user_details (
 ALTER TABLE scidap.user_details OWNER TO postgres;
 
 --
--- TOC entry 2837 (class 0 OID 16602)
+-- TOC entry 2839 (class 0 OID 16602)
 -- Dependencies: 197
 -- Data for Name: item_details; Type: TABLE DATA; Schema: scidap; Owner: postgres
 --
 
-COPY scidap.item_details (item_id, merchant_id, item_category, item_name, item_cost, item_discount, item_selling_price, item_cuisine_type, item_description, item_image, item_meal_type, creation_date, created_by, modified_date, modified_by) FROM stdin;
+COPY scidap.item_details (item_id, merchant_restaurant_id, item_category, item_name, item_cost, item_discount, item_selling_price, item_cuisine_type, item_description, item_image, item_meal_type, creation_date, created_by, modified_date, modified_by) FROM stdin;
+4	2	Biryani	Chicken Biryani	200	0	200	Indian	Chicken Biryani	http://localhost:8080//api/images/items/4	Non-Veg	\N	\N	\N	\N
 \.
 
 
 --
--- TOC entry 2838 (class 0 OID 16608)
+-- TOC entry 2840 (class 0 OID 16608)
 -- Dependencies: 198
 -- Data for Name: merchant_details; Type: TABLE DATA; Schema: scidap; Owner: postgres
 --
@@ -223,18 +224,19 @@ COPY scidap.merchant_details (merchant_restaurant_id, merchant_id, merchant_name
 
 
 --
--- TOC entry 2839 (class 0 OID 16614)
+-- TOC entry 2841 (class 0 OID 16614)
 -- Dependencies: 199
 -- Data for Name: merchant_item_mapping; Type: TABLE DATA; Schema: scidap; Owner: postgres
 --
 
-COPY scidap.merchant_item_mapping (mapping_id, merchant_id, item_id, cost_price, selling_price, discount) FROM stdin;
+COPY scidap.merchant_item_mapping (mapping_id, merchant_restaurant_id, item_id, item_cost, item_selling_price, item_discount) FROM stdin;
+5	2	4	200	200	0
 \.
 
 
 --
--- TOC entry 2840 (class 0 OID 16622)
--- Dependencies: 201
+-- TOC entry 2842 (class 0 OID 16622)
+-- Dependencies: 200
 -- Data for Name: order_details; Type: TABLE DATA; Schema: scidap; Owner: postgres
 --
 
@@ -243,8 +245,8 @@ COPY scidap.order_details (order_id, merchant_id, item_id, order_status, order_c
 
 
 --
--- TOC entry 2841 (class 0 OID 16625)
--- Dependencies: 202
+-- TOC entry 2843 (class 0 OID 16625)
+-- Dependencies: 201
 -- Data for Name: qr_merchant_mapping; Type: TABLE DATA; Schema: scidap; Owner: postgres
 --
 
@@ -253,8 +255,8 @@ COPY scidap.qr_merchant_mapping (qr_code, merchant_id, creation_date, created_by
 
 
 --
--- TOC entry 2842 (class 0 OID 16628)
--- Dependencies: 203
+-- TOC entry 2844 (class 0 OID 16628)
+-- Dependencies: 202
 -- Data for Name: user_details; Type: TABLE DATA; Schema: scidap; Owner: postgres
 --
 
@@ -265,16 +267,25 @@ COPY scidap.user_details (user_id, user_name, password, user_role) FROM stdin;
 
 
 --
--- TOC entry 2849 (class 0 OID 0)
+-- TOC entry 2851 (class 0 OID 0)
 -- Dependencies: 196
 -- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: scidap; Owner: postgres
 --
 
-SELECT pg_catalog.setval('scidap.hibernate_sequence', 3, true);
+SELECT pg_catalog.setval('scidap.hibernate_sequence', 5, true);
 
 
 --
--- TOC entry 2713 (class 2606 OID 16635)
+-- TOC entry 2713 (class 2606 OID 16637)
+-- Name: item_details item_details_pkey; Type: CONSTRAINT; Schema: scidap; Owner: postgres
+--
+
+ALTER TABLE ONLY scidap.item_details
+    ADD CONSTRAINT item_details_pkey PRIMARY KEY (item_id);
+
+
+--
+-- TOC entry 2715 (class 2606 OID 16635)
 -- Name: merchant_details merchant_details_pkey; Type: CONSTRAINT; Schema: scidap; Owner: postgres
 --
 
@@ -282,7 +293,7 @@ ALTER TABLE ONLY scidap.merchant_details
     ADD CONSTRAINT merchant_details_pkey PRIMARY KEY (merchant_restaurant_id);
 
 
--- Completed on 2019-04-03 17:22:04
+-- Completed on 2019-04-05 14:41:23
 
 --
 -- PostgreSQL database dump complete
