@@ -23,9 +23,17 @@ public class Menu {
 	@Column(name="item_id")
 	private Long itemId;
 	
-	@Column(name="merchant_id")
-	private Long merchantId;
+	@Column(name="merchant_restaurant_id")
+	private Long merchantRestaurantId;
 	
+	public Long getMerchantRestaurantId() {
+		return merchantRestaurantId;
+	}
+
+	public void setMerchantRestaurantId(Long merchantRestaurantId) {
+		this.merchantRestaurantId = merchantRestaurantId;
+	}
+
 	@Column(name="item_category")
 	private String category;
 	
@@ -72,14 +80,6 @@ public class Menu {
 
 	public void setItemId(Long itemId) {
 		this.itemId = itemId;
-	}
-
-	public Long getMerchantId() {
-		return merchantId;
-	}
-
-	public void setMerchantId(Long merchantId) {
-		this.merchantId = merchantId;
 	}
 
 	public String getCategory() {

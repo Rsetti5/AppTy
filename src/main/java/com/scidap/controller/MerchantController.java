@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.scidap.model.Menu;
 import com.scidap.model.Merchant;
 import com.scidap.model.MerchantItemDetails;
+import com.scidap.model.MerchantMenuMapping;
 import com.scidap.repository.MenuRepository;
 import com.scidap.repository.MerchantItemDetailsRepository;
+import com.scidap.repository.MerchantMenuMappingRepository;
 import com.scidap.repository.MerchantRepository;
 import com.scidap.utils.ParsingUtil;
 
@@ -38,6 +40,9 @@ public class MerchantController {
 	
 	@Autowired
 	MerchantItemDetailsRepository merchantDetailRep;
+	
+	@Autowired
+	MerchantMenuMappingRepository merchantMenuMappingRep;
 	
 	@Autowired
 	private Environment env;
@@ -110,14 +115,14 @@ public class MerchantController {
 		return merchantRep.save(old_merchant);
 	}
 	
-	@GetMapping("/{merchant_restaurant_id}/menu")
+	@GetMapping("/{merchant_restaurant_id}/menu/get")
 	public List<MerchantItemDetails> getMenuFromMerchantId(@PathVariable(value="merchant_restaurant_id") Long merchant_restaurant_id){
-		return merchantDetailRep.findByMerchantIdOrderByCategoryAsc(merchant_restaurant_id);
+		return merchantDetailRep.findByMerchantRestaurantIdOrderByCategoryAsc(merchant_restaurant_id);
 	}
 	
 	@PostMapping("/{merchant_restaurant_id}/menu/create")
 	public Menu createMenuForMerchant(@PathVariable(value="merchant_restaurant_id") Long merchant_restaurant_id, @Valid @RequestBody Menu menu){
-		menu.setMerchantId(merchant_restaurant_id);
+		menu.setMerchantRestaurantId(merchant_restaurant_id);
 		String image = menu.getImageUrl();
 		if(!("".equalsIgnoreCase(image))) {
 			byte[] data = Base64.getDecoder().decode(menu.getImageUrl());
@@ -140,6 +145,13 @@ public class MerchantController {
 			String urlPath= env.getProperty("imageUrl");
 			menu.setImageUrl(urlPath+"/api/images/items/"+menu.getItemId());
 		}
+		MerchantMenuMapping menuMap = new MerchantMenuMapping();
+		menuMap.setItemId(menu.getItemId());
+		menuMap.setMerchantRestaurantId(menu.getMerchantRestaurantId());
+		menuMap.setCost(menu.getCost());
+		menuMap.setSellingPrice(menu.getSellingPrice());
+		menuMap.setDiscount(menu.getDiscount());
+		merchantMenuMappingRep.save(menuMap);
 		return menuRep.save(menu);
 	}
 	
@@ -152,7 +164,7 @@ public class MerchantController {
 			e.printStackTrace();
 			return null;
 		}
-		menu.setMerchantId(merchant_restaurant_id);
+		menu.setMerchantRestaurantId(merchant_restaurant_id);
 		String image = menu.getImageUrl();
 		if(!("".equalsIgnoreCase(image))) {
 			byte[] data = Base64.getDecoder().decode(image);
@@ -172,6 +184,12 @@ public class MerchantController {
 			menu.setImageUrl(urlPath+"/api/images/items/"+menu.getItemId());
 		}
 		old_menu=ParsingUtil.parseMenuDetails(menu, old_menu);
+		List<MerchantMenuMapping> menuMapList = merchantMenuMappingRep.findByItemIdAndMerchantRestaurantId(menu.getItemId(), menu.getMerchantRestaurantId());
+		MerchantMenuMapping menuMap = menuMapList.get(0);
+		menuMap.setCost(menu.getCost());
+		menuMap.setSellingPrice(menu.getSellingPrice());
+		menuMap.setDiscount(menu.getDiscount());
+		merchantMenuMappingRep.save(menuMap);
 		return menuRep.save(old_menu);
 	}
 }

@@ -60,7 +60,8 @@ public class UsersController {
 	public Users createMerchant(@Valid @RequestBody Users user) {
 		user.setPassword(AppTyEncryption.encrypt(user.getPassword()));
 		user.setRole("merchant");
-		return usersRep.save(user);
+		user =  usersRep.save(user);		
+		return user;
 	}
 	
 }

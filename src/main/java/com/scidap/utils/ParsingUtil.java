@@ -22,7 +22,7 @@ public class ParsingUtil {
 		new_menu.setDiscount(old_menu.getDiscount());
 		new_menu.setImageUrl(old_menu.getImageUrl());
 		new_menu.setMealType(old_menu.getMealType());
-		new_menu.setMerchantId(old_menu.getMerchantId());
+		new_menu.setMerchantRestaurantId(old_menu.getMerchantRestaurantId());
 		new_menu.setName(old_menu.getName());
 		new_menu.setSellingPrice(old_menu.getSellingPrice());
 		return new_menu;

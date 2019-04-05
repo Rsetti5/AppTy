@@ -8,6 +8,6 @@ import com.scidap.model.Menu;
 
 public interface MenuRepository extends JpaRepository<Menu,Long> {
 	
-	List<Menu> findByMerchantIdOrderByCategoryAsc(Long merchantId);
+	List<Menu> findByMerchantRestaurantIdOrderByCategoryAsc(Long merchantId);
 
 }

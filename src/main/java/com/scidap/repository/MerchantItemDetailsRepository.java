@@ -8,5 +8,5 @@ import com.scidap.model.MerchantItemDetails;
 
 public interface MerchantItemDetailsRepository extends JpaRepository<MerchantItemDetails,Long>{
 	
-	List<MerchantItemDetails> findByMerchantIdOrderByCategoryAsc(Long merchantId);
+	List<MerchantItemDetails> findByMerchantRestaurantIdOrderByCategoryAsc(Long merchantId);
 }
