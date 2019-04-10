@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ImageController {
 
 	@GetMapping(value ="/merchants/{image_id}" , produces = MediaType.IMAGE_JPEG_VALUE)
-	public ResponseEntity<InputStreamResource> getMerchantImage(@PathVariable(value="image_id") Long imageId) throws IOException {
+	public ResponseEntity<InputStreamResource> getMerchantImage(@PathVariable(value="image_id") String imageId) throws IOException {
 		String path = "/merchants/logos/"+imageId+".jpg";
 		ClassPathResource imageFile = new ClassPathResource(path);
 		//File file = new File(path);
@@ -26,7 +26,7 @@ public class ImageController {
 	}
 	
 	@GetMapping(value="/items/{image_id}",produces = MediaType.IMAGE_JPEG_VALUE)
-	public ResponseEntity<InputStreamResource> getItemImage(@PathVariable(value="image_id") Long imageId) throws IOException {
+	public ResponseEntity<InputStreamResource> getItemImage(@PathVariable(value="image_id") String imageId) throws IOException {
 		String path = "/merchants/items/"+imageId+".jpg";
 		ClassPathResource imageFile = new ClassPathResource(path);
 		//File file = new File(path);
