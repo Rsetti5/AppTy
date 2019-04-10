@@ -5,7 +5,7 @@
 -- Dumped from database version 11.2
 -- Dumped by pg_dump version 11.2
 
--- Started on 2019-04-05 14:41:22
+-- Started on 2019-04-10 14:55:54
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -66,7 +66,8 @@ CREATE TABLE scidap.item_details (
     creation_date timestamp without time zone,
     created_by character varying(100),
     modified_date timestamp without time zone,
-    modified_by character varying(100)
+    modified_by character varying(100),
+    merchant_id bigint
 );
 
 
@@ -112,7 +113,7 @@ ALTER TABLE scidap.merchant_details OWNER TO postgres;
 
 CREATE TABLE scidap.merchant_item_mapping (
     mapping_id integer NOT NULL,
-    merchant_restaurant_id integer NOT NULL,
+    merchant_id integer NOT NULL,
     item_id integer NOT NULL,
     item_cost double precision,
     item_selling_price double precision,
@@ -123,13 +124,13 @@ CREATE TABLE scidap.merchant_item_mapping (
 ALTER TABLE scidap.merchant_item_mapping OWNER TO postgres;
 
 --
--- TOC entry 203 (class 1259 OID 16638)
+-- TOC entry 203 (class 1259 OID 16643)
 -- Name: merchant_item_details; Type: VIEW; Schema: scidap; Owner: postgres
 --
 
 CREATE VIEW scidap.merchant_item_details AS
  SELECT m.mapping_id,
-    m.merchant_restaurant_id,
+    m.merchant_id,
     m.item_id,
     m.item_cost,
     m.item_selling_price,
@@ -207,8 +208,11 @@ ALTER TABLE scidap.user_details OWNER TO postgres;
 -- Data for Name: item_details; Type: TABLE DATA; Schema: scidap; Owner: postgres
 --
 
-COPY scidap.item_details (item_id, merchant_restaurant_id, item_category, item_name, item_cost, item_discount, item_selling_price, item_cuisine_type, item_description, item_image, item_meal_type, creation_date, created_by, modified_date, modified_by) FROM stdin;
-4	2	Biryani	Chicken Biryani	200	0	200	Indian	Chicken Biryani	http://localhost:8080//api/images/items/4	Non-Veg	\N	\N	\N	\N
+COPY scidap.item_details (item_id, merchant_restaurant_id, item_category, item_name, item_cost, item_discount, item_selling_price, item_cuisine_type, item_description, item_image, item_meal_type, creation_date, created_by, modified_date, modified_by, merchant_id) FROM stdin;
+4	2	Biryani	Chicken Biryani	200	0	200	Indian	Chicken Biryani	http://localhost:8080//api/images/items/4	Non-Veg	\N	\N	\N	\N	\N
+6	\N	Biryani	Chicken Biryani	200	0	200	Indian	Chicken Biryani	http://localhost:8080//api/images/items/6	Non-Veg	\N	\N	\N	\N	\N
+8	\N	Biryani	Chicken Biryani	200	0	200	Indian	Chicken Biryani	http://localhost:8080//api/images/items/8	Non-Veg	\N	\N	\N	\N	\N
+10	\N	Biryani	Chicken Biryani	200	0	200	Indian	Chicken Biryani	http://localhost:8080//api/images/items/10	Non-Veg	\N	\N	\N	\N	2
 \.
 
 
@@ -229,8 +233,11 @@ COPY scidap.merchant_details (merchant_restaurant_id, merchant_id, merchant_name
 -- Data for Name: merchant_item_mapping; Type: TABLE DATA; Schema: scidap; Owner: postgres
 --
 
-COPY scidap.merchant_item_mapping (mapping_id, merchant_restaurant_id, item_id, item_cost, item_selling_price, item_discount) FROM stdin;
+COPY scidap.merchant_item_mapping (mapping_id, merchant_id, item_id, item_cost, item_selling_price, item_discount) FROM stdin;
 5	2	4	200	200	0
+7	2	6	200	200	0
+9	2	8	200	200	0
+11	2	10	200	200	0
 \.
 
 
@@ -272,7 +279,7 @@ COPY scidap.user_details (user_id, user_name, password, user_role) FROM stdin;
 -- Name: hibernate_sequence; Type: SEQUENCE SET; Schema: scidap; Owner: postgres
 --
 
-SELECT pg_catalog.setval('scidap.hibernate_sequence', 5, true);
+SELECT pg_catalog.setval('scidap.hibernate_sequence', 11, true);
 
 
 --
@@ -293,7 +300,7 @@ ALTER TABLE ONLY scidap.merchant_details
     ADD CONSTRAINT merchant_details_pkey PRIMARY KEY (merchant_restaurant_id);
 
 
--- Completed on 2019-04-05 14:41:23
+-- Completed on 2019-04-10 14:55:55
 
 --
 -- PostgreSQL database dump complete
