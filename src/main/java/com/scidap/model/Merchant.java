@@ -31,7 +31,15 @@ public class Merchant {
 	}
 
 	@Column(name="merchant_id")
-    private long merchant_id;
+    private long merchantId;
+
+	public long getMerchantId() {
+		return merchantId;
+	}
+
+	public void setMerchantId(long merchantId) {
+		this.merchantId = merchantId;
+	}
 
 	@Column(name="merchant_name")
 	private String name;
@@ -136,14 +144,4 @@ public class Merchant {
 		this.name = name;
 	}
 	
-	
-	public long getMerchant_id() {
-		return merchant_id;
-	}
-
-	public void setMerchant_id(long merchant_id) {
-		this.merchant_id = merchant_id;
-	}
-
-
 }

@@ -8,5 +8,5 @@ import com.scidap.model.MerchantMenuMapping;
 
 public interface MerchantMenuMappingRepository extends JpaRepository<MerchantMenuMapping,Long>{
 
-	List<MerchantMenuMapping> findByItemIdAndMerchantRestaurantId(long itemId, long merchantRestaurantId);
+	List<MerchantMenuMapping> findByItemIdAndMerchantId(long itemId, long merchantId);
 }

@@ -16,8 +16,8 @@ public class MerchantMenuMapping {
 	@Column(name="mappingId")
 	private long mappingId;
 	
-	@Column(name="merchant_restaurant_id")
-	private long merchantRestaurantId;
+	@Column(name="merchant_id")
+	private long merchantId;
 	
 	public long getMappingId() {
 		return mappingId;
@@ -27,12 +27,12 @@ public class MerchantMenuMapping {
 		this.mappingId = mappingId;
 	}
 
-	public long getMerchantRestaurantId() {
-		return merchantRestaurantId;
+	public long getMerchantId() {
+		return merchantId;
 	}
 
-	public void setMerchantRestaurantId(long merchantRestaurantId) {
-		this.merchantRestaurantId = merchantRestaurantId;
+	public void setMerchantId(long merchantId) {
+		this.merchantId = merchantId;
 	}
 
 	public long getItemId() {

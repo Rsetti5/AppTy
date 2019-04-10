@@ -47,9 +47,9 @@ public class MerchantController {
 	@Autowired
 	private Environment env;
 	
-	@GetMapping("/get/{merchant_restaurant_id}")
-	public Merchant getMerchantFromId(@PathVariable(value="merchant_restaurant_id") Long merchant_restaurant_id) throws Exception {
-		return merchantRep.findByMerchantRestaurantId(merchant_restaurant_id);
+	@GetMapping("/get/{merchant_id}")
+	public Merchant getMerchantFromId(@PathVariable(value="merchant_id") Long merchant_id) throws Exception {
+		return merchantRep.findByMerchantId(merchant_id);
 	}
 	
 	@GetMapping("/get")
@@ -115,15 +115,15 @@ public class MerchantController {
 		return merchantRep.save(old_merchant);
 	}
 	
-	@GetMapping("/{merchant_restaurant_id}/menu/get")
-	public List<MerchantItemDetails> getMenuFromMerchantId(@PathVariable(value="merchant_restaurant_id") Long merchant_restaurant_id){
-		return merchantDetailRep.findByMerchantRestaurantIdOrderByCategoryAsc(merchant_restaurant_id);
+	@GetMapping("/{merchant_id}/menu/get")
+	public List<MerchantItemDetails> getMenuFromMerchantId(@PathVariable(value="merchant_id") Long merchant_id){
+		return merchantDetailRep.findByMerchantIdOrderByCategoryAsc(merchant_id);
 	}
 	
-	@PostMapping("/{merchant_restaurant_id}/menu/create")
-	public Menu createMenuForMerchant(@PathVariable(value="merchant_restaurant_id") Long merchant_restaurant_id, @Valid @RequestBody Menu menu){
-		menu.setMerchantRestaurantId(merchant_restaurant_id);
+	@PostMapping("/{merchant_id}/menu/create")
+	public Menu createMenuForMerchant(@PathVariable(value="merchant_id") Long merchant_id, @Valid @RequestBody Menu menu){
 		String image = menu.getImageUrl();
+		menu.setMerchantId(merchant_id);
 		if(!("".equalsIgnoreCase(image))) {
 			byte[] data = Base64.getDecoder().decode(menu.getImageUrl());
 			String path = System.getProperty("user.dir")+"/src/main/resources/merchants/items/";
@@ -147,7 +147,7 @@ public class MerchantController {
 		}
 		MerchantMenuMapping menuMap = new MerchantMenuMapping();
 		menuMap.setItemId(menu.getItemId());
-		menuMap.setMerchantRestaurantId(menu.getMerchantRestaurantId());
+		menuMap.setMerchantId(merchant_id);
 		menuMap.setCost(menu.getCost());
 		menuMap.setSellingPrice(menu.getSellingPrice());
 		menuMap.setDiscount(menu.getDiscount());
@@ -155,8 +155,8 @@ public class MerchantController {
 		return menuRep.save(menu);
 	}
 	
-	@PostMapping("/{merchant_restaurant_id}/menu/update")
-	public Menu updateMenuForMerchant(@PathVariable(value="merchant_restaurant_id") Long merchant_restaurant_id, @Valid @RequestBody Menu menu){
+	@PostMapping("/{merchant_id}/menu/update")
+	public Menu updateMenuForMerchant(@PathVariable(value="merchant_id") Long merchant_id, @Valid @RequestBody Menu menu){
 		Menu old_menu =null;
 		try {
 			old_menu = menuRep.getOne(menu.getItemId());
@@ -164,7 +164,6 @@ public class MerchantController {
 			e.printStackTrace();
 			return null;
 		}
-		menu.setMerchantRestaurantId(merchant_restaurant_id);
 		String image = menu.getImageUrl();
 		if(!("".equalsIgnoreCase(image))) {
 			byte[] data = Base64.getDecoder().decode(image);
@@ -184,7 +183,7 @@ public class MerchantController {
 			menu.setImageUrl(urlPath+"/api/images/items/"+menu.getItemId());
 		}
 		old_menu=ParsingUtil.parseMenuDetails(menu, old_menu);
-		List<MerchantMenuMapping> menuMapList = merchantMenuMappingRep.findByItemIdAndMerchantRestaurantId(menu.getItemId(), menu.getMerchantRestaurantId());
+		List<MerchantMenuMapping> menuMapList = merchantMenuMappingRep.findByItemIdAndMerchantId(menu.getItemId(),merchant_id);
 		MerchantMenuMapping menuMap = menuMapList.get(0);
 		menuMap.setCost(menu.getCost());
 		menuMap.setSellingPrice(menu.getSellingPrice());

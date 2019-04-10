@@ -23,15 +23,15 @@ public class Menu {
 	@Column(name="item_id")
 	private Long itemId;
 	
-	@Column(name="merchant_restaurant_id")
-	private Long merchantRestaurantId;
+	@Column(name="merchant_id")
+	private Long merchantId;
 	
-	public Long getMerchantRestaurantId() {
-		return merchantRestaurantId;
+	public Long getMerchantId() {
+		return merchantId;
 	}
 
-	public void setMerchantRestaurantId(Long merchantRestaurantId) {
-		this.merchantRestaurantId = merchantRestaurantId;
+	public void setMerchantId(Long merchantId) {
+		this.merchantId = merchantId;
 	}
 
 	@Column(name="item_category")

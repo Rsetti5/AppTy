@@ -8,5 +8,5 @@ import com.scidap.model.Merchant;
 @Repository
 public interface MerchantRepository extends JpaRepository<Merchant,Long> {
  
-	Merchant findByMerchantRestaurantId(long merchantRestaurantId);
+	Merchant findByMerchantId(long merchantId);
 }
