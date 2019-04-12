@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,7 +21,7 @@ public class ImageController {
 		ClassPathResource imageFile = new ClassPathResource(path);
 		//File file = new File(path);
 		//return Utility.encodeFileToBase64Binary(file);
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageId + ".jpg\"").contentLength(imageFile.contentLength()).contentType(MediaType.IMAGE_JPEG).body(new InputStreamResource(imageFile.getInputStream()));
+		return ResponseEntity.ok().contentLength(imageFile.contentLength()).contentType(MediaType.IMAGE_JPEG).body(new InputStreamResource(imageFile.getInputStream()));
 	
 	}
 	
@@ -31,6 +30,6 @@ public class ImageController {
 		String path = "/merchants/items/"+imageId+".jpg";
 		ClassPathResource imageFile = new ClassPathResource(path);
 		//File file = new File(path);
-		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + imageId + ".jpg\"").contentLength(imageFile.contentLength()).contentType(MediaType.IMAGE_JPEG).body(new InputStreamResource(imageFile.getInputStream()));
+		return ResponseEntity.ok().contentLength(imageFile.contentLength()).contentType(MediaType.IMAGE_JPEG).body(new InputStreamResource(imageFile.getInputStream()));
 	}
 }
