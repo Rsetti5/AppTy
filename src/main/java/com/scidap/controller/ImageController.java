@@ -17,7 +17,7 @@ public class ImageController {
 
 	@GetMapping(value ="/merchants/{image_id}" , produces = MediaType.IMAGE_JPEG_VALUE)
 	public ResponseEntity<InputStreamResource> getMerchantImage(@PathVariable(value="image_id") String imageId) throws IOException {
-		String path = "/merchants/logos/"+imageId+".jpg";
+		String path = "/merchants/logos/"+imageId;
 		ClassPathResource imageFile = new ClassPathResource(path);
 		//File file = new File(path);
 		//return Utility.encodeFileToBase64Binary(file);
@@ -27,7 +27,7 @@ public class ImageController {
 	
 	@GetMapping(value="/items/{image_id}",produces = MediaType.IMAGE_JPEG_VALUE)
 	public ResponseEntity<InputStreamResource> getItemImage(@PathVariable(value="image_id") String imageId) throws IOException {
-		String path = "/merchants/items/"+imageId+".jpg";
+		String path = "/merchants/items/"+imageId;
 		ClassPathResource imageFile = new ClassPathResource(path);
 		//File file = new File(path);
 		return ResponseEntity.ok().contentLength(imageFile.contentLength()).contentType(MediaType.IMAGE_JPEG).body(new InputStreamResource(imageFile.getInputStream()));

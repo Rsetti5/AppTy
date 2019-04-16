@@ -79,7 +79,7 @@ public class MerchantController {
 			File newFile = new File(path+merchant.getMerchantRestaurantId()+".jpg");
 			file.renameTo(newFile);
 			String urlPath= env.getProperty("imageUrl");
-			merchant.setLogo(urlPath+"/api/images/merchants/"+merchant.getMerchantRestaurantId());
+			merchant.setLogo(urlPath+"/api/images/merchants/"+merchant.getMerchantRestaurantId()+".jpg");
 		}	
 		return merchantRep.save(merchant);
 	}
@@ -109,7 +109,7 @@ public class MerchantController {
 				e.printStackTrace();
 			}
 			String urlPath= env.getProperty("imageUrl");
-			merchant.setLogo(urlPath+"/api/images/merchants/"+merchant.getMerchantRestaurantId());
+			merchant.setLogo(urlPath+"/api/images/merchants/"+merchant.getMerchantRestaurantId()+".jpg");
 		}		
 		old_merchant= ParsingUtil.parseMerchantDetails(merchant, old_merchant);
 		return merchantRep.save(old_merchant);
@@ -143,7 +143,7 @@ public class MerchantController {
 			File newFile = new File(path+menu.getItemId()+".jpg");
 			file.renameTo(newFile);
 			String urlPath= env.getProperty("imageUrl");
-			menu.setImageUrl(urlPath+"/api/images/items/"+menu.getItemId());
+			menu.setImageUrl(urlPath+"/api/images/items/"+menu.getItemId()+".jpg");
 		}
 		MerchantMenuMapping menuMap = new MerchantMenuMapping();
 		menuMap.setItemId(menu.getItemId());
@@ -180,7 +180,7 @@ public class MerchantController {
 				e.printStackTrace();
 			}
 			String urlPath= env.getProperty("imageUrl");
-			menu.setImageUrl(urlPath+"/api/images/items/"+menu.getItemId());
+			menu.setImageUrl(urlPath+"/api/images/items/"+menu.getItemId()+".jpg");
 		}
 		old_menu=ParsingUtil.parseMenuDetails(menu, old_menu);
 		List<MerchantMenuMapping> menuMapList = merchantMenuMappingRep.findByItemIdAndMerchantId(menu.getItemId(),merchant_id);
